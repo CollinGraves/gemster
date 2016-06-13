@@ -35,13 +35,13 @@ class OrdersController < ApplicationController
 
   def pay
     @order = Order.find(params[:id])
-    if @order.total_amount == params[:amount]
-      @receipt = Receipt.new(order: @order, payment_method: params[:payment_method])
-      if @receipt.save
-        render json: @receipt, status: 204
-      else
-        render json: @receipt.errors, status: 422
-      end
+    service = OrderPayer.new(@order)
+    service.pay params[:amount].to_i, params[:payment_method]
+
+    if service.ok?
+      render json: service.receipt, root: true, status: 201
+    else
+      render json: service.message, status: 422
     end
   end
 

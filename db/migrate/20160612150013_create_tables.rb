@@ -6,6 +6,6 @@ class CreateTables < ActiveRecord::Migration
 
       t.timestamps null: false
     end
-    add_index :tables, :number, unique: true
+    add_index :tables, :number
   end
 end

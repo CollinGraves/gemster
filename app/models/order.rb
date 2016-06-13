@@ -4,6 +4,6 @@ class Order < ActiveRecord::Base
   has_many :items, through: :order_items
 
   def total_amount
-    items.inject(0) { |sum, sum| }
+    items.inject(0) { |sum, item| sum + item.price }
   end
 end
